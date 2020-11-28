@@ -34,16 +34,18 @@ def create(request):
 
     if request.method == 'POST':
 
-        dictPOST = request.POST.copy()
-        est_time = request.POST['estimated_time']
-        work_time = request.POST['worked_time']
-        dictPOST['remaining_time'] = SoapInts(est_time) - SoapInts(work_time)
-
-        form = TasksForm(dictPOST)
+        form = TasksForm(request.POST)
 
         if form.is_valid():
+
+            dictPOST = request.POST.copy()
+            est_time = request.POST['estimated_time']
+            work_time = request.POST['worked_time']
+            dictPOST['remaining_time'] = SoapInts(est_time) - SoapInts(work_time)
+
+            form.TasksForm(dictPOST)
             form.save()
             return redirect('index')
         else:
-            messages.error(request, 'Some fields are invalid or task title already exist!')
+            messages.error(request, form.errors)
             return render(request, 'create.html', context)
