@@ -4,6 +4,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib import messages
+from django.db.models.query_utils import DeferredAttribute
 
 # Local
 from .models import TasksModel
@@ -16,10 +17,13 @@ def index(request):
 
     if request.method == 'GET':
 
-        context = {
-            'tasks': TasksModel.objects.all()
-        }
+        hidden_columns = ('id', 'estimated_time', 'worked_time')
 
+        context = {
+            'tasks': TasksModel.objects.all(),
+            'tasks_head': (key for key, value in TasksModel.__dict__.items() \
+                          if type(value) == DeferredAttribute and key not in hidden_columns)
+        }
         return render(request, 'index.html', context)
 
 def create(request):
@@ -43,7 +47,7 @@ def create(request):
             work_time = request.POST['worked_time']
             dictPOST['remaining_time'] = SoapInts(est_time) - SoapInts(work_time)
 
-            form.TasksForm(dictPOST)
+            form = TasksForm(dictPOST)
             form.save()
             return redirect('index')
         else:

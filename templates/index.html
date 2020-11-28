@@ -1,12 +1,28 @@
 {% extends 'home.html' %}
 
 {% block content %}
+<div class="table-responsive container-md px-0">
+<br />
 <h2>Tasks</h2>
 <br />
-{% for task in tasks %}
-    <h3>{{ task.title }}</h3>
-    <p>{{ task.description }}</p>
-    <p><small>{{ task.remaining_time }}</small></p>
-    <br />
-{% endfor %}
+<table class="table table-striped table-hover">
+    <caption>List of tasks</caption>
+    <thead class="thead-dark">
+        <tr>
+            {% for head in tasks_head %}
+            <th scope="col" class="col-{% if head == 'id' %}1{% else %}2{% endif %} text-center">{{ head }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for task in tasks %}
+        <tr>
+            <td scope="row">{{ task.title }}</td>
+            <td>{{ task.description|slice:":13" }}{% if task.description|slice:"13:" %}...{% endif %}</td>
+            <td>{{ task.remaining_time }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
 {% endblock %}
