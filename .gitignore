@@ -1,0 +1,11 @@
+# python bytecode
+__pycache__
+
+# venv
+.env
+
+# Django files
+*.log
+*.pot
+*.pyc
+local_settings.py
