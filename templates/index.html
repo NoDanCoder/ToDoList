@@ -1,3 +1,6 @@
+{% extends 'home.html' %}
+
+{% block content %}
 <h2>Tasks</h2>
 <br />
 {% for task in tasks %}
@@ -6,3 +9,4 @@
     <p><small>{{ task.remaining_time }}</small></p>
     <br />
 {% endfor %}
+{% endblock %}

@@ -3,7 +3,6 @@
 # Django
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.db.models import Q
 
 # Local
 from .models import TasksModel
@@ -11,7 +10,7 @@ from .operations import SoapInts
 
 # Create your views here.
 def index(request):
-    """ index test module """
+    """ index shows tasks function """
 
     if request.method == 'GET':
 
@@ -20,3 +19,9 @@ def index(request):
         }
 
         return render(request, 'index.html', context)
+
+def create(request):
+    """ create tasks function """
+
+    if request.method == 'GET':
+        return render(request, 'create.html')
