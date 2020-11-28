@@ -2,7 +2,7 @@
 {% for message in messages %}
 <div class="alert alert-danger alert-dismissible fade show {% if message.tags %}{{ message.tags }}{% endif %}"
     role="alert">
-    <strong>Error!</strong> check if your input is correct.
+    <strong>Error!</strong> {{ message }}
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>

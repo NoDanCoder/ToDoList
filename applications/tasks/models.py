@@ -11,4 +11,4 @@ class TasksModel(models.Model):
     description = models.TextField(blank=True)
     estimated_time = models.IntegerField(blank=False)
     worked_time = models.FloatField(blank=False)
-    remaining_time = models.FloatField(default=0.0)
+    remaining_time = models.FloatField(blank=True, null=False, default=0.0)

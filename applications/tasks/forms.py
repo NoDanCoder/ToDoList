@@ -10,4 +10,4 @@ class TasksForm(ModelForm):
     class Meta:
 
         model = TasksModel
-        fields = ('title', 'description', 'estimated_time', 'worked_time')
+        fields = ('title', 'description', 'estimated_time', 'worked_time', 'remaining_time')
