@@ -1,4 +1,29 @@
 {% extends 'home.html' %}
+{% load widget_tweaks %}
 
 {% block content %}
-{% endblock %}
+
+{% include 'messages.html' %}
+<div class="container-sm add-task">
+<form method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="{{ form.title.auto_id }}">{{ form.title.label }}</label>
+        {% render_field form.title class='form-control' placeholder='Django' %}
+    </div>
+    <div class="form-group">
+        <label for="{{ form.description.auto_id }}">{{ form.description.label }}</label>
+        {% render_field form.description class='form-control' placeholder='First do this stuff then...' %}
+    </div>
+    <div class="form-group">
+        <label for="{{ form.estimated_time.auto_id }}">{{ form.estimated_time.label }}</label>
+        {% render_field form.estimated_time class='form-control' placeholder='1000' %}
+    </div> 
+    <div class="form-group">
+        <label for="{{ form.worked_time.auto_id }}">{{ form.worked_time.label }}</label>
+        {% render_field form.worked_time class='form-control' placeholder='0' %}
+    </div>
+    <button type="submit" class="btn btn-primary">{% block btn_label %}Create!{% endblock btn_label %}</button>
+</form>
+</div>
+{% endblock content %}

@@ -6,6 +6,7 @@ from django.http import HttpResponse
 
 # Local
 from .models import TasksModel
+from .forms import TasksForm
 from .operations import SoapInts
 
 # Create your views here.
@@ -24,4 +25,9 @@ def create(request):
     """ create tasks function """
 
     if request.method == 'GET':
-        return render(request, 'create.html')
+
+        context = {
+            'form': TasksForm()
+        }
+
+        return render(request, 'create.html', context)
