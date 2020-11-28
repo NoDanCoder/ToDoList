@@ -1,1 +1,8 @@
-<p>All is working! (on template)</p>
+<h2>Tasks</h2>
+<br />
+{% for task in tasks %}
+    <h3>{{ task.title }}</h3>
+    <p>{{ task.description }}</p>
+    <p><small>{{ task.remaining_time }}</small></p>
+    <br />
+{% endfor %}
