@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # Utilities
+    'widget_tweaks',
+
     # Local Apps
     'applications.tasks',
 ]
