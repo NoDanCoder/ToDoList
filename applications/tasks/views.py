@@ -40,7 +40,6 @@ def create(request):
 
         form = TasksForm(request.POST)
         
-        import pdb; pdb.set_trace()
         if form.is_valid():
             
             dictPOST = request.POST.copy()
@@ -65,7 +64,6 @@ def edit(request, id):
         element = TasksModel.objects.get(id=id)
 
         work_time = str(element.worked_time)
-
         element.worked_time = SoapInts(work_time) + SoapInts(amount)
 
         est_time = str(element.estimated_time)
