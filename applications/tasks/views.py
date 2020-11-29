@@ -19,25 +19,28 @@ from .operations import SoapInts
 class IndexTasks(TemplateView):
     """ index shows tasks class """
 
-    def get(self, request):
-        hidden_columns = ('id', 'estimated_time', 'worked_time')
+    template_name = 'index.html'
+    http_method_names = ('get',)
 
-        context = {
+    def get_context_data(self, **kwargs):
+        """ set context data for template """
+        
+        hidden_columns = ('id', 'estimated_time', 'worked_time')
+        return {
             'tasks': TasksModel.objects.all(),
             'tasks_head': (key for key, value in TasksModel.__dict__.items() \
                           if type(value) == DeferredAttribute and key not in hidden_columns)
         }
-        return render(request, 'index.html', context)
+
 
 class CreateTask(TemplateView):
     """ create tasks function """
 
-    context = {
+    template_name = 'create.html'
+    http_method_names = ('get', 'post')
+    extra_context = {
         'form': TasksForm()
     }
-
-    def get(self, request):
-        return render(request, 'create.html', self.context)
 
     def post(self, request):
 
