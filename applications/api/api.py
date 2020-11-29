@@ -14,7 +14,6 @@ class TaskAPI(APIView):
         serializer = TaskSerializer(data = request.data)
 
         if serializer.is_valid():
-            import pdb; pdb.set_trace()
             serializer.save()
             return Response(serializer.data, status = status.HTTP_201_CREATED)
         else:
