@@ -53,22 +53,26 @@ class SoapOperation:
         """ SoapOperation init method """
         self._request_data = IntDict()
 
+    def setFields(func):
+        def operator(self, a, b):
+            self._request_data.intA = a
+            self._request_data.intB = b
+            return func(self, a, b)
+        return operator
+
+    @setFields
     def add(self, a, b):
         """ add comm method """
-        self._request_data.intA = a
-        self._request_data.intB = b
         return self.client.service.Add(**self._request_data.config)
 
+    @setFields
     def sub(self, a, b):
         """ substract comm method """
-        self._request_data.intA = a
-        self._request_data.intB = b
         return self.client.service.Subtract(**self._request_data.config)
 
+    @setFields
     def mul(self, a, b):
         """ multiply comm method """
-        self._request_data.intA = a
-        self._request_data.intB = b
         return self.client.service.Multiply(**self._request_data.config)
 
     def pot(self, a, b):
