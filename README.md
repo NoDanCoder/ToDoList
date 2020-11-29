@@ -1,6 +1,6 @@
 # ToDo List
 
-ToDo is a Django project for dealing with organization tasks, enable you create your own tasks and set deadlines.
+ToDo List is a Django project for dealing with organization tasks, enable you create your own tasks and set deadlines.
 
 ## Description
 
