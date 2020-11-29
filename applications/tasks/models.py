@@ -3,6 +3,9 @@
 # Django
 from django.db import models
 
+# Local Utilities
+from .operations import SoapInts
+
 # Create your models here.
 class TasksModel(models.Model):
     """ tasks db model """

@@ -44,17 +44,14 @@ class CreateTask(TemplateView):
 
     def post(self, request):
 
-        form = TasksForm(request.POST)
-        
+        form = TasksForm(data=request.POST)
+       
         if form.is_valid():
-            
-            dictPOST = request.POST.copy()
-            est_time = request.POST['estimated_time']
-            work_time = request.POST['worked_time']
-            dictPOST['remaining_time'] = SoapInts(est_time) - SoapInts(work_time)
-
-            form = TasksForm(dictPOST)
-            form.save()
+            task = form.save(commit=False)
+            est_time = task.estimated_time
+            work_time = task.worked_time
+            task.remaining_time = SoapInts(est_time) - SoapInts(work_time)
+            task.save()
             return redirect('index')
         else:
             messages.error(request, form.errors)
@@ -62,6 +59,8 @@ class CreateTask(TemplateView):
 
 class EditTask(TemplateView):
     """ edit worked_time property """
+
+    http_method_names = ('post',)
 
     def post(self, request, id):
     
@@ -71,12 +70,11 @@ class EditTask(TemplateView):
             amount = request.POST['worked_time']
             element = TasksModel.objects.get(id=id)
 
-            work_time = str(element.worked_time)
+            work_time = element.worked_time
             element.worked_time = SoapInts(work_time) + SoapInts(amount)
 
-            est_time = str(element.estimated_time)
-            work_time = str(element.worked_time)
-
+            est_time = element.estimated_time
+            work_time = element.worked_time
             element.remaining_time = SoapInts(est_time) - SoapInts(work_time)
             element.save()
             return redirect('index')

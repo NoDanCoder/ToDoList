@@ -13,3 +13,5 @@ class TasksAdmin(admin.ModelAdmin):
 
     # Table columns
     list_display = ('pk', 'title', 'description', 'estimated_time', 'worked_time', 'remaining_time')
+
+    readonly_fields = ('remaining_time',)
