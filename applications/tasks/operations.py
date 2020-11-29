@@ -1,4 +1,5 @@
 from zeep import Client
+from itertools import zip_longest as zip_long
 
 class IntDict(object):
     config = None
@@ -26,6 +27,11 @@ class SoapOperation:
     def __init__(self):
         self._request_data = IntDict()
 
+    def add(self, a, b):
+        self._request_data.intA = a
+        self._request_data.intB = b
+        return self.client.service.Add(**self._request_data.config)
+
     def sub(self, a, b):
         self._request_data.intA = a
         self._request_data.intB = b
@@ -47,13 +53,63 @@ class SoapInts:
         self.value = value
 
     def __sub__(self, other):
-        first = int(self.value)
-        second = [int(x) for x in other.value.split('.')]
-        response = self.operator.sub(first, second[0])
 
-        if len(second) > 1:
-            decimal_places = self.operator.pot(len(str(second[1])), 10)
-            second[1] = self.operator.sub(decimal_places, second[1])
-            return f'{response-1}.{second[1]}'
+        self.value = self.value.replace(',', '.')
+        other.value = other.value.replace(',', '.')
+               
+        # divide decimal of entire part
+        first = [x[0] or x[1] for x in \
+                zip_long(self.value.split('.'), '00')] 
+        
+        second = [x[0] or x[1] for x in \
+                zip_long(other.value.split('.'), '00')]
+    
+        # fill zeros
+        if len(first[1]) > len(second[1]):
+            second[1] = ''.join([x[1] or '0' for x in zip_long(first[1], second[1])])
+        elif len(first[1]) < len(second[1]):
+            first[1] = ''.join([x[0] or '0' for x in zip_long(first[1], second[1])])
 
-        return str(response)
+        # op decimal part
+        potencia = len(first[1])
+        max_scope = self.operator.pot(potencia, 10)
+        if int(first[1]) < int(second[1]):
+            first[0] = self.operator.sub(int(first[0]), 1)
+            decimal_part = self.operator.sub(max_scope, int(second[1]))
+            decimal_part = self.operator.add(int(first[1]), decimal_part)
+        else:
+            decimal_part = self.operator.sub(int(first[1]), int(second[1]))
+
+        entire_part = self.operator.sub(int(first[0]), int(second[0]))
+        return f'{entire_part}.{decimal_part}'
+
+
+    def __add__(self, other):
+
+        self.value = self.value.replace(',', '.')
+        other.value = other.value.replace(',', '.')
+        
+        # divide decimal of entire part
+        first = [x[0] or x[1] for x in \
+                zip_long(self.value.split('.'), '00')] 
+        
+        second = [x[0] or x[1] for x in \
+                zip_long(other.value.split('.'), '00')]
+
+
+        # fill zeros
+        if len(first[1]) > len(second[1]):
+            second[1] = ''.join([x[1] or '0' for x in zip_long(first[1], second[1])])
+        elif len(first[1]) < len(second[1]):
+            first[1] = ''.join([x[0] or '0' for x in zip_long(first[1], second[1])])
+
+        # sum decimal part
+        potencia = len(second[1])
+        decimal_part = self.operator.add(int(first[1]), int(second[1]))
+        max_scope = self.operator.pot(potencia, 10)
+
+        if decimal_part >= max_scope:
+            first[0] = self.operator.add(1, int(first[0]))
+
+        entire_part = self.operator.add(int(first[0]), int(second[0]))
+        return f'{entire_part}.{decimal_part}'

@@ -10,8 +10,9 @@
     <thead class="thead-dark">
         <tr>
             {% for head in tasks_head %}
-            <th scope="col" class="col-{% if head == 'id' %}1{% else %}2{% endif %} text-center">{{ head }}</th>
+            <th scope="col" class="col-2 text-center">{{ head }}</th>
             {% endfor %}
+            <th scope="col" class="col-1">EDIT</th>
         </tr>
     </thead>
     <tbody>
@@ -20,6 +21,9 @@
             <td scope="row">{{ task.title }}</td>
             <td>{{ task.description|slice:":13" }}{% if task.description|slice:"13:" %}...{% endif %}</td>
             <td>{{ task.remaining_time }}</td>
+            <td>
+                {% include 'edit.html' %}
+            </td>
         </tr>
         {% endfor %}
     </tbody>

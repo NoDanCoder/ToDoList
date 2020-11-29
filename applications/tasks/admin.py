@@ -12,4 +12,4 @@ class TasksAdmin(admin.ModelAdmin):
     """ tasks admin class """
 
     # Table columns
-    list_display = ('pk', 'title', 'description', 'estimated_time', 'worked_time')
+    list_display = ('pk', 'title', 'description', 'estimated_time', 'worked_time', 'remaining_time')

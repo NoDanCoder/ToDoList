@@ -11,3 +11,10 @@ class TasksForm(ModelForm):
 
         model = TasksModel
         fields = ('title', 'description', 'estimated_time', 'worked_time', 'remaining_time')
+
+class WorkedTimeForm(ModelForm):
+    
+    class Meta:
+
+        model = TasksModel
+        fields = ('worked_time',)
