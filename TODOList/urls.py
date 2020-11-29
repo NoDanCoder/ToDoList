@@ -19,4 +19,5 @@ urlpatterns = [
     # Local paths
     path('', home_url),
     path('task/', include('applications.tasks.urls')),
+    path('api/', include('applications.api.urls')),
 ]

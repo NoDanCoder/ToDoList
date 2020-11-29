@@ -76,6 +76,3 @@ def edit(request, id):
         return redirect('index')
     else:
         return HttpResponse('fail')
-
-
-
